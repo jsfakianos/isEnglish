@@ -5,7 +5,8 @@ I started pulling news feeds from various sources for some odd project. Turns ou
 
 I put together this pretty efficient python script to return True or False on the Englishness of the scripture. I'm sure that you can find some exceptions to this rule, but it's near perfect when the inputs are from news articles. 
 
-Here are some articles that it excluded from my views'
+Here are some articles that it analyzed;
+
 
 **average_unicode_value = 89.27    small_words = 7 of which 0% are English3s**
 *Avis aux mÃ©dias - Condition fÃ©minine Canada
