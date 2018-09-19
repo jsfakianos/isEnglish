@@ -1,0 +1,41 @@
+English_3s = {'age', 'air', 'all', 'am', 'an', 'and', 'any', 'are', 'as', 'at', 'be', 'bet', 'bid', 'big', 'box', 'but', 'by', 'can', 'cut', 'day', 'did', 'do', 'end', 'eye', 'fan', 'few', 'fix', 'for', 'get', 'go', 'got', 'had', 'has', 'he', 'her', 'his', 'how', 'if', 'in', 'is', 'it', 'its', 'job', 'key', 'led', 'lot', 'may', 'net', 'new', 'no', 'not', 'now', 'of', 'off', 'oil', 'on', 'one', 'or', 'our', 'out', 'own', 'par', 'pay', 'per', 'plc', 'run', 'say', 'see', 'set', 'so', 'tax', 'the', 'to', 'too', 'top', 'try', 'two', 'up', 'us', 'use', 'vs', 'was', 'way', 'we', 'who', 'you'}
+def isEnglish(scripture):
+    # Let's start with something easy, Unicode. If your talking in a language that Unicode sees as expensive,
+    # your not talkin' English. For example, talking about American dollars is cheap as ord('$') is only 36.
+    # Though, if your talking about Euros, that's expensive because ord('€') is 8,364. Similarly, is pretty
+    # expensive to talk Asian languages, ord('字') = 23383. So, if the sentence is expensive, return False,
+    # because it ain't English.
+    component_values = [ord(x) for x in list(scripture)]
+    average_unicode_value = sum(component_values)/len(component_values)
+    if average_unicode_value > 500.0:
+        return False
+
+    # If that didn't work, we can also try to look at the small words in the sentences. To do that, let's
+    # make a new 'set' from the scripture and start to count up the small words.
+    # As a side, remove 'a' from list ---> Why? It's in lot's of languages, try removing it from equation
+    words = set(scripture.strip().split())
+    words = words - {'a'}
+    small_words = 0
+
+    # Small words can be the crux of languages. Luckily, us English speakers capitalize lots of
+    # words that can be omitted from the worry.
+    # For instance, 'Dan the Man kicked the can with his friends Ann and Stan."
+    # We've got 8 'small' words, only half of which would qualify for adding to small_words consideration.
+    for word in words:
+        if len(word) < 4 and word.isalpha() and word.islower():
+            small_words+=1
+
+    # Check to see if the small words are stuff like 'ohh la la' or 'hen da dui', which would
+    # obviously be French or Chinese, but not English! For Gods' sake, not English at all.
+    # Well, that would be the case at least if there are a bunch of those words, and most of
+    # them are not in my set of English_3s. Otherwise, it's English! Not the Queen's, just regular English.
+    small_words_English = English_3s.intersection(words)
+    if small_words > 1 and len(small_words_English) / small_words < 0.52:
+        return False
+    else:
+        return True
+
+
+
+this = isEnglish("Your scripture.")
+print("That is {} scripture.".format(this))
